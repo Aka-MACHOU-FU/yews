@@ -154,11 +154,11 @@ class Trainer(object):
 
             # train model for one epoch
             acc, loss = self.train_one_epoch(train_loader, epoch, print_freq=print_freq)
-            self.update_train_results(1000/loss, loss)
+            self.update_train_results(100000/loss, loss)
 
             # validate model for current epoch
             acc, loss = self.validate(val_loader)
-            self.update_val_results(1000/loss, loss)
+            self.update_val_results(100000/loss, loss)
 
             # save checkpoint
             self.save_checkpoint(path=f'checkpoint_current.pth.tar')
