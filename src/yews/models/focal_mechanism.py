@@ -295,7 +295,7 @@ class FmV2(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Linear(64 * 4 * 4, 3),
+            nn.Linear(64 * 4 * 4, 1),
         )
             
     def forward(self, x):
