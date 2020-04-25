@@ -31,6 +31,7 @@ class FmV1(nn.Module):
         self.fc = nn.Linear(3, 1)
 
     def forward(self, x):
+        x = x.view(-1,1)
         out = self.layer1(x)
         out = self.layer2(out)
         out = self.layer3(out)
