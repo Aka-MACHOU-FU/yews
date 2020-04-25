@@ -24,14 +24,14 @@ class FmV1(nn.Module):
         # (3,7) 3>71 7>18000 in the end use (3,3).
 
         # 71,9000 -> 71,4507
-        self.layer1 = nn.Linear(3*71*9000,10)
+        self.layer1 = nn.Linear(1704*9000,10)
         self.layer2 = nn.Linear(10,5)
         self.layer3 = nn.Linear(5,3)
      
         self.fc = nn.Linear(3, 1)
 
     def forward(self, x):
-        x = x.view(-1,1)
+        
         out = self.layer1(x)
         out = self.layer2(out)
         out = self.layer3(out)
