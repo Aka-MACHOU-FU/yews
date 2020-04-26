@@ -24,10 +24,10 @@ class FmV1(nn.Module):
         # (3,7) 3>71 7>18000 in the end use (3,3).
 
         # 71,9000 -> 71,4507
-        self.layer1 = nn.Linear(3*71*9000,100)
-        self.layer2 = nn.Linear(100,50)
-        self.layer3 = nn.Linear(50,25)
-        self.layer4 = nn.Linear(25,10)
+        self.layer1 = nn.Linear(3*71*9000,50)
+        self.layer2 = nn.Linear(50,25)
+        self.layer3 = nn.Linear(25,15)
+        self.layer4 = nn.Linear(15,10)
         self.layer5 = nn.Linear(10,3)
         self.fc = nn.Linear(3, 1)
 
