@@ -28,7 +28,7 @@ class FmV1(nn.Module):
         self.layer2 = nn.Linear(100,50)
         self.layer3 = nn.Linear(50,25)
         self.layer4 = nn.Linear(25,10)
-        self.layer5 = nn.Linear(25,3)
+        self.layer5 = nn.Linear(10,3)
         self.fc = nn.Linear(3, 1)
 
     def forward(self, x):
