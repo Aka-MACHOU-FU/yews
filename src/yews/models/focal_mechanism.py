@@ -25,7 +25,7 @@ class FmV1(nn.Module):
 
         # 71,9000 -> 71,4507
         self.layer1 = nn.Linear(3*71*9000,100)
-        self.layer2 = nn.linear(100,50)
+        self.layer2 = nn.Linear(100,50)
         self.layer3 = nn.Linear(50,25)
         self.layer4 = nn.Linear(25,10)
         self.layer5 = nn.Linear(25,3)
