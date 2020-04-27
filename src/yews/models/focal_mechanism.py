@@ -248,9 +248,11 @@ class FmV3(nn.Module):
             nn.linear(64*32*64,64*32*64*4),
             nn.linear(64*32*64*4,64*32*64*2),
             nn.linear(64*32*64*2,64*32*64),
+            nn.Tanh(),
             nn.linear(64*32*64,64*32*32),
             nn.linear(64*32*32,64*32),
             nn.linear(64,32),
+            nn.Tanh(),
             nn.linear(32,16),
             nn.linear(16,4),
             nn.linear(4,1),)
