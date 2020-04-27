@@ -27,8 +27,10 @@ class FmV1(nn.Module):
         # 71,9000 -> 71,4507
         self.layer1 = nn.Linear(3*71*9000,50)
         self.layer2 = nn.Linear(50,25)
+        self.tan1 = nn.Tanh()
         self.layer3 = nn.Linear(25,15)
         self.layer4 = nn.Linear(15,10)
+        self.tan2 = nn.Tanh()
         self.layer5 = nn.Linear(10,3)
         self.fc = nn.Linear(3, 1)
 
@@ -36,8 +38,10 @@ class FmV1(nn.Module):
         x = x.view(x.size(0), -1) 
         out = self.layer1(x)
         out = self.layer2(out)
+        out = self.tan1(out)
         out = self.layer3(out)
         out = self.layer4(out)
+        out = self.tan2(out)
         out = self.layer5(out)
         out = self.fc(out)
 
