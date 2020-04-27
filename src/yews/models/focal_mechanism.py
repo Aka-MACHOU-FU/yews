@@ -225,8 +225,6 @@ class FmV3(nn.Module):
 
 #---------16*35*859
 
-
-
             nn.Conv2d(16, 32, kernel_size=(2,30), stride=(1,3), padding = (0,4) bias=False), #----32*34*280
             nn.BatchNorm2d(16),
             nn.ReLU(),
@@ -234,15 +232,14 @@ class FmV3(nn.Module):
 
  #---------32*33*140
 
-
-
-
             nn.Conv2d(32, 64, kernel_size=(2,10), stride=(1,2), bias=False), #----64*32*66
             nn.BatchNorm2d(16),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=(2,3), stride=(1,1)),  #---------64*32*64)
             
-            self.layer2 = nn.Sequential(
+        )
+            
+        self.layer2 = nn.Sequential(
 
             nn.linear(64*32*64,64*32*64*4),
             nn.linear(64*32*64*4,64*32*64*2),
@@ -258,7 +255,7 @@ class FmV3(nn.Module):
             
         x = self.layer1(x)    
         x = x.view(x.size(0), -1) 
-        out = self.layer2
+        out = self.layer2(x)
         return out
 
 def fm_v3(pretrained=False, progress=True, **kwargs):
