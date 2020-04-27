@@ -230,14 +230,14 @@ class FmV3(nn.Module):
 #---------16*35*859
 
             nn.Conv2d(16, 32, kernel_size=(2,30), stride=(1,3), padding = (0,4) ,bias=False), #----32*34*280
-            nn.BatchNorm2d(16),
+            nn.BatchNorm2d(32),
             nn.Tanh(),
             nn.MaxPool2d(kernel_size=(2,2), stride=(1,2)), 
 
  #---------32*33*140
 
             nn.Conv2d(32, 64, kernel_size=(2,10), stride=(1,2), bias=False), #----64*32*66
-            nn.BatchNorm2d(16),
+            nn.BatchNorm2d(64),
             nn.Tanh(),
             nn.MaxPool2d(kernel_size=(2,3), stride=(1,1)),  #---------64*32*64)
             
