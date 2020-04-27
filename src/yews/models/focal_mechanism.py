@@ -8,11 +8,12 @@ from .utils import load_state_dict_from_url
 # except ImportError:
 #     from torch.utils.model_zoo import load_url as load_state_dict_from_url
     
-__all__ = ['FmV1', 'fm_v1', 'FmV2', 'fm_v2']
+__all__ = ['FmV1', 'fm_v1', 'FmV2', 'fm_v2','FmV3', 'fm_v3']
 
 model_urls = {
     'fm_v1': 'https://www.dropbox.com/s/ckb4glf35agi9xa/fm_v1_wenchuan-bdd92da2.pth?dl=1',
     'fm_v2': 'https://www.dropbox.com/s/ckb4glf35agi9xa/fm_v1_wenchuan-bdd92da2.pth?dl=1',
+    'fm_v3': 'https://www.dropbox.com/s/ckb4glf35agi9xa/fm_v1_wenchuan-bdd92da2.pth?dl=1',
 }
 
 class FmV1(nn.Module):
@@ -202,6 +203,77 @@ def fm_v2(pretrained=False, progress=True, **kwargs):
     model = FmV2(**kwargs)
     if pretrained:
         state_dict = load_state_dict_from_url(model_urls['fm_v2'],
+                                              progress=progress)
+        model.load_state_dict(state_dict)
+    return model
+
+class FmV3(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        # n*3*71*9000
+        # nn.Cov2d(3,16,kernel_size=(3,7),stride=1,padding=....)
+        # (3,7) 3>71 7>18000 in the end use (3,3).
+
+        # 71,9000 -> 71,4507
+       
+        self.layer1=nn.Sequential(
+            nn.Conv2d(3, 16, kernel_size=(2,400), stride=(1,10), bias=False), #----16*70*861
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=(2,3), stride=(2,1)),  
+
+#---------16*35*859
+
+
+
+            nn.Conv2d(16, 32, kernel_size=(2,30), stride=(1,3), padding = (0,4) bias=False), #----32*34*280
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=(2,2), stride=(1,2)), 
+
+ #---------32*33*140
+
+
+
+
+            nn.Conv2d(32, 64, kernel_size=(2,10), stride=(1,2), bias=False), #----64*32*66
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=(2,3), stride=(1,1)),  #---------64*32*64)
+            
+            self.layer2 = nn.Sequential(
+
+            nn.linear(64*32*64,64*32*64*4),
+            nn.linear(64*32*64*4,64*32*64*2),
+            nn.linear(64*32*64*2,64*32*64),
+            nn.linear(64*32*64,64*32*32),
+            nn.linear(64*32*32,64*32),
+            nn.linear(64,32),
+            nn.linear(32,16),
+            nn.linear(16,4),
+            nn.linear(4,1),)
+
+    def forward(self, x):
+            
+        x = self.layer1(x)    
+        x = x.view(x.size(0), -1) 
+        out = self.layer2
+        return out
+
+def fm_v3(pretrained=False, progress=True, **kwargs):
+    r"""Original CPIC model architecture from the
+    `"Deep learning for ..." <https://arxiv.org/abs/1901.06396>`_ paper. The
+    pretrained model is trained on 60,000 Wenchuan aftershock dataset
+    demonstrated in the paper.
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on Wenchuan)
+        progress (bool): If True, displays a progress bar of the download to stderr
+    """
+    model = FmV3(**kwargs)
+    if pretrained:
+        state_dict = load_state_dict_from_url(model_urls['fm_v3'],
                                               progress=progress)
         model.load_state_dict(state_dict)
     return model
