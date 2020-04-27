@@ -246,7 +246,7 @@ class FmV3(nn.Module):
         self.layer2 = nn.Sequential(
 
             
-            nn.Linear(64*32*64,64*32),
+            nn.Linear(64*32*62,64*32),
             nn.Linear(64*32,64*16),
             nn.Tanh(),
             nn.Linear(64*16,64*2),
