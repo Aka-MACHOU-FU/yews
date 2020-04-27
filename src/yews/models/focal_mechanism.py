@@ -247,14 +247,9 @@ class FmV3(nn.Module):
 
             
             nn.Linear(64*32*62,64*32),
-            nn.Linear(64*32,64*16),
-            nn.Tanh(),
-            nn.Linear(64*16,64*2),
-            nn.Linear(64*2,32),
-            nn.Linear(32,16),
-            nn.Tanh(),
-            nn.Linear(16,4),
-            nn.Linear(4,1),
+            nn.Linear(64*32,16),
+            nn.Tanh(),           
+            nn.Linear(16,1),           
             )
 
     def forward(self, x):
