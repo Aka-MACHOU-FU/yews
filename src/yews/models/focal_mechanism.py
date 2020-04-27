@@ -245,17 +245,17 @@ class FmV3(nn.Module):
             
         self.layer2 = nn.Sequential(
 
-            nn.linear(64*32*64,64*32*64*4),
-            nn.linear(64*32*64*4,64*32*64*2),
-            nn.linear(64*32*64*2,64*32*64),
+            nn.Linear(64*32*64,64*32*64*4),
+            nn.Linear(64*32*64*4,64*32*64*2),
+            nn.Linear(64*32*64*2,64*32*64),
             nn.Tanh(),
-            nn.linear(64*32*64,64*32*32),
-            nn.linear(64*32*32,64*32),
-            nn.linear(64,32),
+            nn.Linear(64*32*64,64*32*32),
+            nn.Linear(64*32*32,64*32),
+            nn.Linear(64,32),
             nn.Tanh(),
-            nn.linear(32,16),
-            nn.linear(16,4),
-            nn.linear(4,1),)
+            nn.Linear(32,16),
+            nn.Linear(16,4),
+            nn.Linear(4,1),)
 
     def forward(self, x):
             
