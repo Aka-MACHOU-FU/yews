@@ -222,34 +222,35 @@ class FmV3(nn.Module):
         # 71,9000 -> 71,4507
        
         self.layer1=nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=(2,400), stride=(1,50), bias=False), #----16*70*861
+            nn.Conv2d(3, 16, kernel_size=(2,400), stride=(1,50), bias=False), #----16*70*173
             nn.BatchNorm2d(16),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=(2,10), stride=(2,2)),  
+            nn.MaxPool2d(kernel_size=(2,10), stride=(2,1)),  
 
-#---------16*35*859
+#---------16*35*172
 
-            nn.Conv2d(16, 32, kernel_size=(2,50), stride=(1,2),bias=False), #----32*34*280
+            nn.Conv2d(16, 32, kernel_size=(3,30), stride=(2,2),bias=False), #----32*17*72
             nn.BatchNorm2d(32),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=(2,2), stride=(1,2)), 
+            nn.MaxPool2d(kernel_size=(3,2), stride=(2,2)), 
 
- #---------32*33*140
+ #---------32*8*36
 
-            nn.Conv2d(32, 64, kernel_size=(2,20), stride=(1,2), bias=False), #----64*32*66
+            nn.Conv2d(32, 64, kernel_size=(2,6), stride=(2,2), bias=False), #----64*4*16
             nn.BatchNorm2d(64),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=(2,3), stride=(1,1)),  #---------64*32*64)
+            nn.MaxPool2d(kernel_size=(2,4), stride=(1,3)),  #---------64*3*5
             
         )
             
         self.layer2 = nn.Sequential(
 
             
-            nn.Linear(64,64*32),
-            nn.Linear(64*32,16),
+            nn.Linear(64*3*5,16),
+            nn.Tanh(),
+            nn.Linear(16,4),
             nn.Tanh(),           
-            nn.Linear(16,1),           
+            nn.Linear(4,1),           
             )
 
     def forward(self, x):
